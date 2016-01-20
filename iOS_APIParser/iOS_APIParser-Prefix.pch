@@ -14,5 +14,6 @@
 
 #import "AppDelegate.h"
 #import "AppMacros.h"
+#import "APIConstants.h"
 
 #endif /* iOS_APIParser_Prefix_pch */
