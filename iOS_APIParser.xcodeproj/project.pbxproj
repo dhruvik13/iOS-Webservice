@@ -18,6 +18,7 @@
 		19428EDF1BFA0C5B00C135C8 /* APIParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EDE1BFA0C5B00C135C8 /* APIParser.m */; };
 		19428EE31BFA0C9F00C135C8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EE21BFA0C9F00C135C8 /* Reachability.m */; };
 		1983282E1BFB18D600ECF061 /* APIParser+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 1983282D1BFB18D600ECF061 /* APIParser+User.m */; };
+		27E061001E4886C7004D50AC /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E060FF1E4886C7004D50AC /* TableVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		19428EE81BFA12E300C135C8 /* AppMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacros.h; sourceTree = "<group>"; };
 		1983282C1BFB18D600ECF061 /* APIParser+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APIParser+User.h"; sourceTree = "<group>"; };
 		1983282D1BFB18D600ECF061 /* APIParser+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APIParser+User.m"; sourceTree = "<group>"; };
+		27E060FE1E4886C7004D50AC /* TableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableVC.h; sourceTree = "<group>"; };
+		27E060FF1E4886C7004D50AC /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 				19428EAC1BFA0B3400C135C8 /* AppDelegate.m */,
 				19428EAE1BFA0B3400C135C8 /* ViewController.h */,
 				19428EAF1BFA0B3400C135C8 /* ViewController.m */,
+				27E060FE1E4886C7004D50AC /* TableVC.h */,
+				27E060FF1E4886C7004D50AC /* TableVC.m */,
 				19428EB11BFA0B3400C135C8 /* Main.storyboard */,
 				19428EB41BFA0B3500C135C8 /* Assets.xcassets */,
 				19428EB61BFA0B3500C135C8 /* LaunchScreen.storyboard */,
@@ -312,6 +317,7 @@
 				1983282E1BFB18D600ECF061 /* APIParser+User.m in Sources */,
 				19428EAD1BFA0B3400C135C8 /* AppDelegate.m in Sources */,
 				19428EAA1BFA0B3400C135C8 /* main.m in Sources */,
+				27E061001E4886C7004D50AC /* TableVC.m in Sources */,
 				19428EE31BFA0C9F00C135C8 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -185,6 +185,7 @@
 							case APIGetComments :
 							{
 								NSLog(@"ResponseString :: %@", responseString);
+								responceDataArray = (NSMutableArray *)Responceobjects;
 								break;
 							}
 							default:
