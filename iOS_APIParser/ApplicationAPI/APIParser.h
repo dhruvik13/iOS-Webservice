@@ -20,23 +20,11 @@
 @property (nonatomic, strong) NSString *DebugURLTitle;
 @property (nonatomic, strong) NSString *DebugURLParams;
 @property (nonatomic, strong) NSString *DebugURLCookie;
+@property (nonatomic, strong) NSURLResponse *HTTPURLResponse;
 
 @end
 
-
-@interface QuickLookObject : NSObject
-
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *serviceId;
-
-@end
-
-
-
-
-
-
-typedef void (^ResponseBlock)     (NSError *error, id objects, NSString *responseString,NSString *nextUrl, NSMutableArray *responseArray);
+typedef void (^ResponseBlock)     (NSError *error, id objects, NSString *responseString,NSString *nextUrl, NSMutableArray *responseArray, NSURLResponse *URLResponseObject);
 
 enum RESPONCESTATUTS
 {
@@ -63,13 +51,15 @@ enum RESPONCESTATUTS
 - (NSData *)dictionaryWithmembersOfObject:(id)obj formembers:(NSArray *)members;
 - (NSData *)dictionaryToJSONData:(NSDictionary *)dict;
 
-- (NSMutableURLRequest *)urlRequestForURL:(NSURL *)url withObjects:(NSData *)objData withReqCookies:(NSMutableArray *)arrCookies isObject:(bool)customObj ;
+- (NSMutableURLRequest *)urlRequestForURL:(NSURL *)url withObjects:(NSData *)objData
+						   withReqCookies:(NSMutableArray *)arrCookies
+								 isObject:(bool)customObj
+						  withParameters :(NSString *) params
+								 reqType :(NSString *) requestType
+							   reqHeaders:(NSDictionary *) requestHeaders;
 
 #pragma mark - Set Session ID and CookieDevice ID
-//- (void) setSessionIDAndCookieDeviceIDFromArray : (NSArray *) arrayHeaders ;
-
-- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responce  withParam : (NSString *) params;
-
+- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responseString  withParam : (NSString *) params withHTTPResponse : (NSURLResponse *) URLResponse;
 
 #pragma mark - Run On Main Thread
 void runOnMainQueueWithoutDeadlocking(void (^block)(void));

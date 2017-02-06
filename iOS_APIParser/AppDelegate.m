@@ -17,10 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    //Remote Notification
-    [self registerApplicationForPushNotifications:application];
-    
+	
     return YES;
 }
 
@@ -44,25 +41,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-#pragma mark - Push Notification
-
-- (void)registerApplicationForPushNotifications:(UIApplication *)application
-{
-    // Checking if app is running iOS 8
-    if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
-        
-        // Register device for iOS8
-        UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
-        [application registerUserNotificationSettings:notificationSettings];
-        [application registerForRemoteNotifications];
-    }
-    else {
-        
-        // Register device for iOS7
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge];
-    }
 }
 
 @end

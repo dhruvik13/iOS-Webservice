@@ -11,11 +11,9 @@
 
 #define DEFAULT_TIMEOUT 120000.0f
 
-#define ServerPath          "http://"
+#define ServerPath          "https://jsonplaceholder.typicode.com/"
 
 #pragma mark - Test
-
-#define URLCookieTest         [NSString stringWithFormat:@"%@/device/test", URLBase]
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 

@@ -12,13 +12,16 @@
 typedef enum
 {
     APIUserLogIn,
+	APIGetComments,
     APIUserGetPosts
-} UserAPIType;
+} APIType;
 
-- (void)UserRequestWithType:(UserAPIType)serviceName
-                 parameters:(NSString *)parameters
-                cookieValue:(NSMutableArray *)cookies
-              customeobject:(id)object
-                      block:(ResponseBlock)block;
+- (void)URLRequestWithType:(APIType)serviceName
+				parameters:(NSString *)parameters
+			   cookieValue:(NSMutableArray *)cookies
+			 customeobject:(id)object
+		  withRequestType : (NSString *) requestType
+		withRequestHeaders:(NSDictionary *) headerDictionaries
+					 block:(ResponseBlock)block;
 
 @end

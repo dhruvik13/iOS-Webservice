@@ -19,17 +19,9 @@
 @synthesize DebugURLTitle;
 @synthesize DebugURLParams;
 @synthesize DebugURLCookie;
+@synthesize HTTPURLResponse;
 
 @end
-
-
-@implementation QuickLookObject
-
-@synthesize url, serviceId;
-
-@end
-
-
 
 @implementation APIParser
 
@@ -121,12 +113,11 @@
             
             /******************* Set Url for WebService ********************/
             NSError *error = nil;
-            NSHTTPURLResponse *response = nil;
-            NSString *URLString ;//= [[NSString alloc]init];
+			NSString *URLString ;//= [[NSString alloc]init];
             NSData   *jsonData;
             URLString=@"";
             jsonData=data;
-            
+			
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:DEFAULT_TIMEOUT];
             NSString *PostParamters;
             ////TRC_DBG(@"PostParamters -- >%@",PostParamters);
@@ -148,33 +139,39 @@
             }
             
             id   Responceobjects = nil;
-            
-            NSData   *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-            
-            NSMutableArray *responseArray = [NSMutableArray array];
-            
-            if (data.length>0)
-            {
-                
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^(){
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    if ( error )
-                    {
-                        block(error,Responceobjects,responseString, nil, responseArray);
-                    }
-                    else
-                    {
-                        block(error,Responceobjects,responseString, nil, responseArray);
-                    }
-                }];
-            });
+			
+			NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+			NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration: defaultConfigObject];
+
+			NSURLSessionDataTask * dataTask;
+			dataTask = [defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+				{
+					if (data.length>0)
+					{
+						NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+						
+						NSMutableArray *responseArray = [NSMutableArray array];
+						
+						dispatch_async(dispatch_get_main_queue(), ^(){
+							[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+								if ( error )
+								{
+									block(error,Responceobjects,responseString, nil, responseArray, response);
+								}
+								else
+								{
+									block(error,Responceobjects,responseString, nil, responseArray, response);
+								}
+							}];
+						});
+					}
+				}
+			}];
+			
+			
         });
     }];
-    
+	
     [operation setQueuePriority:NSOperationQueuePriorityVeryHigh];
 }
 
@@ -228,75 +225,90 @@
 
 #pragma mark - Create Request
 
-- (NSMutableURLRequest *)urlRequestForURL:(NSURL *)url withObjects:(NSData *)objData withReqCookies:(NSMutableArray *)arrCookies isObject:(bool)customObj
+- (NSMutableURLRequest *)urlRequestForURL:(NSURL *)url withObjects:(NSData *)objData
+						   withReqCookies:(NSMutableArray *)arrCookies
+								 isObject:(bool)customObj
+						  withParameters :(NSString *) params
+								 reqType :(NSString *) requestType
+							   reqHeaders:(NSDictionary *) requestHeaders
 {
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest
-                                    requestWithURL:url
-                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                    timeoutInterval:DEFAULT_TIMEOUT];
-    
-    if (customObj) {
-        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    }
-    else {
-        [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    }
-    
-    [request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)[objData length]] forHTTPHeaderField:@"Content-Length"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPShouldHandleCookies:YES];
-    
-    
-    //Set Cookie
-    NSMutableArray *allCookies = [NSMutableArray array];
-    
-    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    
-    for (NSHTTPCookie *cookie in [storage cookies]) {
-        [allCookies addObject:cookie];
-    }
-    
-    if ([allCookies count] > 0) {
-        
-        NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:allCookies];
-        [request setAllHTTPHeaderFields:headers];
-    }
-    
-    [request setHTTPBody:objData];
-    
-    return request;
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest
+									requestWithURL:url
+									cachePolicy:NSURLRequestUseProtocolCachePolicy
+									timeoutInterval:DEFAULT_TIMEOUT];
+	
+	if (customObj) {
+		//        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+		[request setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];
+	}
+	else {
+		[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+	}
+	
+	[request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)[objData length]] forHTTPHeaderField:@"Content-Length"];
+	[request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	[request setHTTPMethod:requestType];
+	[request setHTTPShouldHandleCookies:YES];
+	
+	
+	//Add custom Headers
+	for (NSString *key in [requestHeaders allKeys]) {
+		[request setValue:[requestHeaders valueForKey:key] forHTTPHeaderField:key];
+	}
+	
+	//Some Universal Request Headers for all request
+	[request setValue:@"Pass_Your_Access_Token" forHTTPHeaderField:@"AuthorizationTemp"];
+	[request setValue:@"Pass_YourSession_ID" forHTTPHeaderField:@"SessionIdTemp"];
+	
+	//Set Cookie
+	NSMutableArray *allCookies = [NSMutableArray array];
+	
+	NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	
+	for (NSHTTPCookie *cookie in [storage cookies]) {
+		[allCookies addObject:cookie];
+	}
+	
+	if ([allCookies count] > 0) {
+		
+		NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:allCookies];
+		[request setAllHTTPHeaderFields:headers];
+	}
+	
+	[request setHTTPBody:objData];
+	
+	return request;
 }
 
 #pragma mark - Set Session ID and CookieDevice ID
 
-- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responce withParam : (NSString *) params
+- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responseString withParam : (NSString *) params withHTTPResponse : (NSURLResponse *) URLResponse
 {
     //Handle Cookie
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    
+	
 #pragma mark - DEVELOPER DEBUG LOG
     
     DegubObject *debugDetail = [DegubObject new];
     debugDetail.DebugURL = URL;
 //    debugDetail.DebugURLResponceHeader = [NSString stringWithFormat:@"%@", [arrayHeaders componentsJoinedByString:@""]];
-    debugDetail.DebugResponce = responce;
+    debugDetail.DebugResponce = responseString;
     debugDetail.DebugURLTitle = [[NSURL URLWithString:URL] lastPathComponent];
     debugDetail.DebugURLParams = params;
     debugDetail.DebugURLCookie = [[storage cookies] componentsJoinedByString:@"\n"];
-    
+	debugDetail.HTTPURLResponse = URLResponse;
+	
     __block NSMutableArray *debugCachedArray;
     
     if (debugCachedArray.count == 40) {
         
         [debugCachedArray removeObjectAtIndex:0];
     }
-    
+	
+	//You can cache this Whole debug Array to maintain Request / Response.
     [debugCachedArray addObject:debugDetail];
 }
-
-
 
 #pragma mark - Run On Main Thread
 

@@ -19,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+	[self getPostForUser:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,31 +30,33 @@
 #pragma mark - Sample web service calling
 
 - (void) getPostForUser : (NSString *) user_id {
-    
-    APIParser *service = [APIParser sharedMediaServer];
-    
-    [service UserRequestWithType:APIUserGetPosts
-                       parameters:[NSString stringWithFormat:@"userId=%d", (int)user_id]
-                      cookieValue:nil
-                    customeobject:nil
-                            block:^(NSError *error, id objects, NSString *responseString, NSString *nextUrl, NSMutableArray *responseArray)
-    {
-        if (error) {
-            
-            //Handle Error
-        }
-        else {
-            
-            if (responseArray.count > 0) {
-                
-                //Handle Response Array
-            }
-            else {
-                
-                //Handle null response array
-            }
-        }
-    }];
+	
+	APIParser *service = [APIParser sharedMediaServer];
+	
+	[service URLRequestWithType:APIGetComments
+					 parameters:[NSString stringWithFormat:@"userId=%d", (int)user_id]
+					cookieValue:nil
+				  customeobject:nil
+				withRequestType:@"GET"
+			 withRequestHeaders:nil
+						  block:^(NSError *error, id objects, NSString *responseString, NSString *nextUrl, NSMutableArray *responseArray, NSURLResponse *URLResponseObject) {
+							  
+							  if (error) {
+								  
+								  //Handle Error
+							  }
+							  else {
+								  
+								  if (responseArray.count > 0) {
+									  
+									  //Handle Response Array
+								  }
+								  else {
+									  
+									  //Handle null response array
+								  }
+							  }
+						  }];
 }
 
 
