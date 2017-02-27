@@ -36,7 +36,8 @@ APIParser *service = [APIParser sharedMediaServer]; //set your shared Instanse f
 									  //Handle null response array
 								  }
 							  }
-						  }];```
+						  }];
+						  ```
 
 
 ## Author
