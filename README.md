@@ -37,7 +37,7 @@ APIParser *service = [APIParser sharedMediaServer]; //set your shared Instanse f
 								  }
 							  }
 						  }];
-						  ```
+						  
 
 
 ## Author
@@ -48,6 +48,6 @@ Dhruvik Rao, dhruvik.rao@gmail.com
 ## License
 
 ```
-Copyright (c) 2015 Dhruvik Rao <dhruvik.rao@gmail.com>
+Copyright (c) 2017 Dhruvik Rao <dhruvik.rao@gmail.com>
 
 # iOS-Webservice
