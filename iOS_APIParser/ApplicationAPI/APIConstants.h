@@ -11,7 +11,7 @@
 
 #define DEFAULT_TIMEOUT 120000.0f
 
-#define ServerPath          "https://jsonplaceholder.typicode.com/"
+#define ServerPath          "https://jsonplaceholder.typicode.com"
 
 #pragma mark - Test
 

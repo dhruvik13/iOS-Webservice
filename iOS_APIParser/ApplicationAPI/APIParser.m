@@ -7,21 +7,8 @@
 //
 
 #import "APIParser.h"
-
-//#import "CacheData.h"
-
-
-@implementation DegubObject
-
-@synthesize DebugURL;
-@synthesize DebugResponce;
-@synthesize DebugURLResponceHeader;
-@synthesize DebugURLTitle;
-@synthesize DebugURLParams;
-@synthesize DebugURLCookie;
-@synthesize HTTPURLResponse;
-
-@end
+#import "APIInfoObject.h"
+#import "AppCacheManagement.h"
 
 @implementation APIParser
 
@@ -64,8 +51,6 @@
         [reach startNotifier];
         
         [WSoperationQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-        
-        //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     }
     return self;
 }
@@ -79,17 +64,22 @@
     {
         if ([parser.WSoperationQueue.operations count] == 0)
         {
-            ShowNetworkIndicator(0);
-        }
-        else
-        {
-            
-        }
-    }
+			runOnMainQueueWithoutDeadlocking(^{
+				ShowNetworkIndicator(0);
+			});
+		}
+	}
     else {
         [super observeValueForKeyPath:keyPath ofObject:object
                                change:change context:context];
     }
+}
+
+#pragma mark - Cancel all API request with operation
+
+- (void)cancelALLCurrentlyExecutingRequest {
+	[WSoperationQueue cancelAllOperations];
+	ShowNetworkIndicator(0);
 }
 
 #pragma mark - API
@@ -104,75 +94,6 @@
     });
     
     return sharedMediaServer;
-}
-
-- (void)postRequestparameters:(NSData *)data customeobject:(id)object block:(ResponseBlock)block
-{
-    NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            /******************* Set Url for WebService ********************/
-            NSError *error = nil;
-			NSString *URLString ;//= [[NSString alloc]init];
-            NSData   *jsonData;
-            URLString=@"";
-            jsonData=data;
-			
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:DEFAULT_TIMEOUT];
-            NSString *PostParamters;
-            ////TRC_DBG(@"PostParamters -- >%@",PostParamters);
-            NSData *postData = [PostParamters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-            NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-            [request setURL:[NSURL URLWithString:URLString]];
-            [request setHTTPMethod:@"POST"];
-            [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-            [request setHTTPBody:postData];
-            
-            if (jsonData!=nil)
-            {
-                [request setHTTPBody:jsonData];
-                [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            }
-            else
-            {
-                [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-            }
-            
-            id   Responceobjects = nil;
-			
-			NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
-			NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration: defaultConfigObject];
-
-			NSURLSessionDataTask * dataTask;
-			dataTask = [defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-				{
-					if (data.length>0)
-					{
-						NSString *responseString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-						
-						NSMutableArray *responseArray = [NSMutableArray array];
-						
-						dispatch_async(dispatch_get_main_queue(), ^(){
-							[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-								if ( error )
-								{
-									block(error,Responceobjects,responseString, nil, responseArray, response);
-								}
-								else
-								{
-									block(error,Responceobjects,responseString, nil, responseArray, response);
-								}
-							}];
-						});
-					}
-				}
-			}];
-			
-			
-        });
-    }];
-	
-    [operation setQueuePriority:NSOperationQueuePriorityVeryHigh];
 }
 
 - (NSData *) dictionaryWithPropertiesOfObject:(id)obj
@@ -229,7 +150,7 @@
 						   withReqCookies:(NSMutableArray *)arrCookies
 								 isObject:(bool)customObj
 						  withParameters :(NSString *) params
-								 reqType :(NSString *) requestType
+								 reqType :(APIRequestType) requestType
 							   reqHeaders:(NSDictionary *) requestHeaders
 {
 	
@@ -239,7 +160,7 @@
 									timeoutInterval:DEFAULT_TIMEOUT];
 	
 	if (customObj) {
-		//        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+		[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		[request setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"content-type"];
 	}
 	else {
@@ -248,7 +169,7 @@
 	
 	[request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)[objData length]] forHTTPHeaderField:@"Content-Length"];
 	[request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-	[request setHTTPMethod:requestType];
+	[request setHTTPMethod:StringFromAPIRequestMethod(requestType)];
 	[request setHTTPShouldHandleCookies:YES];
 	
 	
@@ -281,33 +202,80 @@
 	return request;
 }
 
-#pragma mark - Set Session ID and CookieDevice ID
+#pragma mark - Dictionary to QueryString
 
-- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responseString withParam : (NSString *) params withHTTPResponse : (NSURLResponse *) URLResponse
+-(NSString *)serializeParams:(NSDictionary *)params {
+	
+	/*
+	 
+	 Convert an NSDictionary to a query string
+	 
+	 */
+	
+	NSMutableArray* pairs = [NSMutableArray array];
+	for (NSString* key in [params keyEnumerator]) {
+		id value = [params objectForKey:key];
+		if ([value isKindOfClass:[NSDictionary class]]) {
+			for (NSString *subKey in value) {
+				NSString* escaped_value = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+																												(CFStringRef)[value objectForKey:subKey],
+																												NULL,
+																												(CFStringRef)@"!*'();:@&=+$,/?%#[]",
+																												kCFStringEncodingUTF8));
+				[pairs addObject:[NSString stringWithFormat:@"%@[%@]=%@", key, subKey, escaped_value]];
+			}
+		} else if ([value isKindOfClass:[NSArray class]]) {
+			for (NSString *subValue in value) {
+				NSString* escaped_value = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+																												(CFStringRef)subValue,
+																												NULL,
+																												(CFStringRef)@"!*'();:@&=+$,/?%#[]",
+																												kCFStringEncodingUTF8));
+				[pairs addObject:[NSString stringWithFormat:@"%@[]=%@", key, escaped_value]];
+			}
+		} else {
+			NSString* escaped_value = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+																											(CFStringRef)[params objectForKey:key],
+																											NULL,
+																											(CFStringRef)@"!*'();:@&=+$,/?%#[]",
+																											kCFStringEncodingUTF8));
+			[pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
+			//            [escaped_value release];
+		}
+	}
+	return [pairs componentsJoinedByString:@"&"];
+}
+
+#pragma mark - DEVELOPER API DEBUG LOGS
+
+- (void)saveAPIDetailsToCacheForRequestTitle:(NSString *)apiName //Title of API
+								  andResponse:(NSURLResponse *)response //Response object
+								   andRequest:(NSURLRequest *)request //Request object
+						   responseDictionary:(NSDictionary *)responseDict //Formatted response
+							   responseString:(NSString *)responseString //Raw response
 {
-    //Handle Cookie
-    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	
-#pragma mark - DEVELOPER DEBUG LOG
-    
-    DegubObject *debugDetail = [DegubObject new];
-    debugDetail.DebugURL = URL;
-//    debugDetail.DebugURLResponceHeader = [NSString stringWithFormat:@"%@", [arrayHeaders componentsJoinedByString:@""]];
-    debugDetail.DebugResponce = responseString;
-    debugDetail.DebugURLTitle = [[NSURL URLWithString:URL] lastPathComponent];
-    debugDetail.DebugURLParams = params;
-    debugDetail.DebugURLCookie = [[storage cookies] componentsJoinedByString:@"\n"];
-	debugDetail.HTTPURLResponse = URLResponse;
-	
-    __block NSMutableArray *debugCachedArray;
-    
-    if (debugCachedArray.count == 40) {
-        
-        [debugCachedArray removeObjectAtIndex:0];
-    }
-	
-	//You can cache this Whole debug Array to maintain Request / Response.
-    [debugCachedArray addObject:debugDetail];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		
+		if (![[AppCacheManagement sharedCacheManager] APILoggingEnabled])
+			return;
+		
+		APIInfoObject *debugDetail = [APIInfoObject modelObjectWithDetails:apiName request:request response:response responseDictionary:responseDict responseString:responseString];
+		
+		__block NSMutableArray *debugCachedArray;
+		[[AppCacheManagement sharedCacheManager] getcachedataArrayFor_:kDeveloperDebugAPILog myMethod:^(BOOL status, NSMutableArray *retrivedArray) {
+			if (retrivedArray != nil) {
+				debugCachedArray = retrivedArray;
+			}
+		}];
+		if (debugCachedArray.count == kConstMaxDebugAPICount) {
+			
+			[debugCachedArray removeObjectAtIndex:0];
+		}
+		
+		[debugCachedArray addObject:debugDetail];
+		
+		[[AppCacheManagement sharedCacheManager] setCacheToUserDefaults:debugCachedArray ForKey:kDeveloperDebugAPILog];
+	});
 }
 
 #pragma mark - Run On Main Thread
@@ -322,6 +290,20 @@ void runOnMainQueueWithoutDeadlocking(void (^block)(void))
     {
         dispatch_async(dispatch_get_main_queue(), block);
     }
+}
+
+#pragma mark - String Request enum
+
+NSString *StringFromAPIRequestMethod(APIRequestType apiType)
+{
+	switch (apiType) {
+		case APIRequestMethodGET:      return @"GET";
+		case APIRequestMethodPOST:     return @"POST";
+		case APIRequestMethodPUT:      return @"PUT";
+		case APIRequestMethodDELETE:   return @"DELETE";
+		default:                     break;
+	}
+	return nil;
 }
 
 @end

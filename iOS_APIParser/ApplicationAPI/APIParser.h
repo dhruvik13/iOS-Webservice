@@ -10,19 +10,16 @@
 #import "Reachability.h"
 #import "APIConstants.h"
 #import "objc/runtime.h"
+#import "InternetConnectionStatusVC.h"
 
 
-@interface DegubObject : NSObject
-
-@property (nonatomic, strong) NSString *DebugURL;
-@property (nonatomic, strong) NSString *DebugResponce;
-@property (nonatomic, strong) NSString *DebugURLResponceHeader;
-@property (nonatomic, strong) NSString *DebugURLTitle;
-@property (nonatomic, strong) NSString *DebugURLParams;
-@property (nonatomic, strong) NSString *DebugURLCookie;
-@property (nonatomic, strong) NSURLResponse *HTTPURLResponse;
-
-@end
+typedef enum
+{
+	APIRequestMethodGET,
+	APIRequestMethodPOST,
+	APIRequestMethodDELETE,
+	APIRequestMethodPUT
+} APIRequestType;
 
 typedef void (^ResponseBlock)     (NSError *error, id objects, NSString *responseString,NSString *nextUrl, NSMutableArray *responseArray, NSURLResponse *URLResponseObject);
 
@@ -42,11 +39,16 @@ enum RESPONCESTATUTS
     Reachability *reachability;
 }
 
+@property (nonatomic, assign) APIRequestType requestType;
+
 @property (strong) NSOperationQueue *WSoperationQueue;
+
+@property (nonatomic, assign) BOOL isnetworkStatusVCPresented;
+
+@property (nonatomic, strong) NSMutableArray *APIRequestsArray;
 
 + (id)sharedMediaServer;
 
-- (void)postRequestparameters:(NSData *)data customeobject:(id)object block:(ResponseBlock)block;
 - (NSData *)dictionaryWithPropertiesOfObject:(id)obj;
 - (NSData *)dictionaryWithmembersOfObject:(id)obj formembers:(NSArray *)members;
 - (NSData *)dictionaryToJSONData:(NSDictionary *)dict;
@@ -55,11 +57,21 @@ enum RESPONCESTATUTS
 						   withReqCookies:(NSMutableArray *)arrCookies
 								 isObject:(bool)customObj
 						  withParameters :(NSString *) params
-								 reqType :(NSString *) requestType
+								 reqType :(APIRequestType) requestType
 							   reqHeaders:(NSDictionary *) requestHeaders;
 
-#pragma mark - Set Session ID and CookieDevice ID
-- (void) setSessionIDAndCookieDeviceIDforUrl : (NSString *) URL withResponce : (NSString*) responseString  withParam : (NSString *) params withHTTPResponse : (NSURLResponse *) URLResponse;
+#pragma mark - Cancel all API request with operation
+- (void)cancelALLCurrentlyExecutingRequest;
+
+#pragma mark - Dictionary to QueryString
+-(NSString *)serializeParams:(NSDictionary *)params;
+
+#pragma mark - DEVELOPER API DEBUG LOGS
+- (void) saveAPIDetailsToCacheForRequestTitle:(NSString *)apiName //Title of API
+								  andResponse:(NSURLResponse *)response //Response object
+								   andRequest:(NSURLRequest *)request //Request object
+						   responseDictionary:(NSDictionary *)responseDict //Formatted response
+							   responseString:(NSString *)responseString; //Raw response
 
 #pragma mark - Run On Main Thread
 void runOnMainQueueWithoutDeadlocking(void (^block)(void));

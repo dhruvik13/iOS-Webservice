@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AppCacheManagement.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+	
+	//Start Logging API request / response
+	[[AppCacheManagement sharedCacheManager] setAPILoggingEnabled:true];
 	
     return YES;
 }
@@ -41,6 +45,24 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - Check Host Reachability
+
+- (NetworkStatus) checkHostReachability {
+	self.hostReachability = [Reachability reachabilityForInternetConnection];
+	return self.hostReachability.currentReachabilityStatus;
+}
+
+- (UIViewController*) topMostController
+{
+	UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+	
+	while (topController.presentedViewController) {
+		topController = topController.presentedViewController;
+	}
+	
+	return topController;
 }
 
 @end

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		19428EAA1BFA0B3400C135C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EA91BFA0B3400C135C8 /* main.m */; };
 		19428EAD1BFA0B3400C135C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EAC1BFA0B3400C135C8 /* AppDelegate.m */; };
-		19428EB01BFA0B3400C135C8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EAF1BFA0B3400C135C8 /* ViewController.m */; };
 		19428EB31BFA0B3400C135C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19428EB11BFA0B3400C135C8 /* Main.storyboard */; };
 		19428EB51BFA0B3500C135C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19428EB41BFA0B3500C135C8 /* Assets.xcassets */; };
 		19428EB81BFA0B3500C135C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19428EB61BFA0B3500C135C8 /* LaunchScreen.storyboard */; };
@@ -18,7 +17,16 @@
 		19428EDF1BFA0C5B00C135C8 /* APIParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EDE1BFA0C5B00C135C8 /* APIParser.m */; };
 		19428EE31BFA0C9F00C135C8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 19428EE21BFA0C9F00C135C8 /* Reachability.m */; };
 		1983282E1BFB18D600ECF061 /* APIParser+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 1983282D1BFB18D600ECF061 /* APIParser+User.m */; };
-		27E061001E4886C7004D50AC /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E060FF1E4886C7004D50AC /* TableVC.m */; };
+		278AEB2F2142756D00475DD7 /* AppCacheManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB2E2142756D00475DD7 /* AppCacheManagement.m */; };
+		278AEB322142757B00475DD7 /* APIInfoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB312142757B00475DD7 /* APIInfoObject.m */; };
+		278AEB3B214275E700475DD7 /* InternetConnectionStatusVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB3A214275E700475DD7 /* InternetConnectionStatusVC.m */; };
+		278AEB3E2142762700475DD7 /* APILogDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB3D2142762700475DD7 /* APILogDetailVC.m */; };
+		278AEB412142764200475DD7 /* APILogsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB402142764200475DD7 /* APILogsVC.m */; };
+		278AEB492142783500475DD7 /* UIViewController+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB482142783500475DD7 /* UIViewController+Helper.m */; };
+		278AEB4B2142799D00475DD7 /* DeveloperInsights.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278AEB4A2142799D00475DD7 /* DeveloperInsights.storyboard */; };
+		278AEB4D214279FA00475DD7 /* InternetConnection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278AEB4C214279FA00475DD7 /* InternetConnection.storyboard */; };
+		278AEB5121427E5700475DD7 /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB5021427E5700475DD7 /* FeedObject.m */; };
+		278AEB5821427FFE00475DD7 /* FeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 278AEB5721427FFE00475DD7 /* FeedVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +51,6 @@
 		19428EA91BFA0B3400C135C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		19428EAB1BFA0B3400C135C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		19428EAC1BFA0B3400C135C8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		19428EAE1BFA0B3400C135C8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		19428EAF1BFA0B3400C135C8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		19428EB21BFA0B3400C135C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		19428EB41BFA0B3500C135C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		19428EB71BFA0B3500C135C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -64,8 +70,24 @@
 		19428EE81BFA12E300C135C8 /* AppMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacros.h; sourceTree = "<group>"; };
 		1983282C1BFB18D600ECF061 /* APIParser+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APIParser+User.h"; sourceTree = "<group>"; };
 		1983282D1BFB18D600ECF061 /* APIParser+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APIParser+User.m"; sourceTree = "<group>"; };
-		27E060FE1E4886C7004D50AC /* TableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableVC.h; sourceTree = "<group>"; };
-		27E060FF1E4886C7004D50AC /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
+		278AEB2D2142756D00475DD7 /* AppCacheManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCacheManagement.h; sourceTree = "<group>"; };
+		278AEB2E2142756D00475DD7 /* AppCacheManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppCacheManagement.m; sourceTree = "<group>"; };
+		278AEB302142757B00475DD7 /* APIInfoObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIInfoObject.h; sourceTree = "<group>"; };
+		278AEB312142757B00475DD7 /* APIInfoObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIInfoObject.m; sourceTree = "<group>"; };
+		278AEB39214275E700475DD7 /* InternetConnectionStatusVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternetConnectionStatusVC.h; sourceTree = "<group>"; };
+		278AEB3A214275E700475DD7 /* InternetConnectionStatusVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InternetConnectionStatusVC.m; sourceTree = "<group>"; };
+		278AEB3C2142762700475DD7 /* APILogDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogDetailVC.h; sourceTree = "<group>"; };
+		278AEB3D2142762700475DD7 /* APILogDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogDetailVC.m; sourceTree = "<group>"; };
+		278AEB3F2142764200475DD7 /* APILogsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogsVC.h; sourceTree = "<group>"; };
+		278AEB402142764200475DD7 /* APILogsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogsVC.m; sourceTree = "<group>"; };
+		278AEB472142783500475DD7 /* UIViewController+Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Helper.h"; sourceTree = "<group>"; };
+		278AEB482142783500475DD7 /* UIViewController+Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Helper.m"; sourceTree = "<group>"; };
+		278AEB4A2142799D00475DD7 /* DeveloperInsights.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DeveloperInsights.storyboard; sourceTree = "<group>"; };
+		278AEB4C214279FA00475DD7 /* InternetConnection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InternetConnection.storyboard; sourceTree = "<group>"; };
+		278AEB4F21427E5700475DD7 /* FeedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedObject.h; sourceTree = "<group>"; };
+		278AEB5021427E5700475DD7 /* FeedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedObject.m; sourceTree = "<group>"; };
+		278AEB5621427FFE00475DD7 /* FeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedVC.h; sourceTree = "<group>"; };
+		278AEB5721427FFE00475DD7 /* FeedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,13 +138,12 @@
 		19428EA71BFA0B3300C135C8 /* iOS_APIParser */ = {
 			isa = PBXGroup;
 			children = (
+				278AEB5221427F6800475DD7 /* AppControllers */,
+				278AEB4E21427E4600475DD7 /* AppModelClasses */,
+				278AEB462142781B00475DD7 /* Helper */,
 				19428EDB1BFA0B6B00C135C8 /* ApplicationAPI */,
 				19428EAB1BFA0B3400C135C8 /* AppDelegate.h */,
 				19428EAC1BFA0B3400C135C8 /* AppDelegate.m */,
-				19428EAE1BFA0B3400C135C8 /* ViewController.h */,
-				19428EAF1BFA0B3400C135C8 /* ViewController.m */,
-				27E060FE1E4886C7004D50AC /* TableVC.h */,
-				27E060FF1E4886C7004D50AC /* TableVC.m */,
 				19428EB11BFA0B3400C135C8 /* Main.storyboard */,
 				19428EB41BFA0B3500C135C8 /* Assets.xcassets */,
 				19428EB61BFA0B3500C135C8 /* LaunchScreen.storyboard */,
@@ -162,6 +183,7 @@
 		19428EDB1BFA0B6B00C135C8 /* ApplicationAPI */ = {
 			isa = PBXGroup;
 			children = (
+				278AEB292142751F00475DD7 /* APILogger */,
 				19428EE01BFA0C9F00C135C8 /* Reachability */,
 				19428EDC1BFA0C5B00C135C8 /* APIConstants.h */,
 				19428EDD1BFA0C5B00C135C8 /* APIParser.h */,
@@ -180,6 +202,76 @@
 				19428EE21BFA0C9F00C135C8 /* Reachability.m */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		278AEB292142751F00475DD7 /* APILogger */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB2A2142751F00475DD7 /* Controller */,
+				278AEB2B2142751F00475DD7 /* Model */,
+				278AEB2C2142751F00475DD7 /* View */,
+			);
+			path = APILogger;
+			sourceTree = "<group>";
+		};
+		278AEB2A2142751F00475DD7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB39214275E700475DD7 /* InternetConnectionStatusVC.h */,
+				278AEB3A214275E700475DD7 /* InternetConnectionStatusVC.m */,
+				278AEB3C2142762700475DD7 /* APILogDetailVC.h */,
+				278AEB3D2142762700475DD7 /* APILogDetailVC.m */,
+				278AEB3F2142764200475DD7 /* APILogsVC.h */,
+				278AEB402142764200475DD7 /* APILogsVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		278AEB2B2142751F00475DD7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB2D2142756D00475DD7 /* AppCacheManagement.h */,
+				278AEB2E2142756D00475DD7 /* AppCacheManagement.m */,
+				278AEB302142757B00475DD7 /* APIInfoObject.h */,
+				278AEB312142757B00475DD7 /* APIInfoObject.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		278AEB2C2142751F00475DD7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB4C214279FA00475DD7 /* InternetConnection.storyboard */,
+				278AEB4A2142799D00475DD7 /* DeveloperInsights.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		278AEB462142781B00475DD7 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB472142783500475DD7 /* UIViewController+Helper.h */,
+				278AEB482142783500475DD7 /* UIViewController+Helper.m */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		278AEB4E21427E4600475DD7 /* AppModelClasses */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB4F21427E5700475DD7 /* FeedObject.h */,
+				278AEB5021427E5700475DD7 /* FeedObject.m */,
+			);
+			path = AppModelClasses;
+			sourceTree = "<group>";
+		};
+		278AEB5221427F6800475DD7 /* AppControllers */ = {
+			isa = PBXGroup;
+			children = (
+				278AEB5621427FFE00475DD7 /* FeedVC.h */,
+				278AEB5721427FFE00475DD7 /* FeedVC.m */,
+			);
+			path = AppControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,7 +377,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				278AEB4D214279FA00475DD7 /* InternetConnection.storyboard in Resources */,
 				19428EB81BFA0B3500C135C8 /* LaunchScreen.storyboard in Resources */,
+				278AEB4B2142799D00475DD7 /* DeveloperInsights.storyboard in Resources */,
 				19428EB51BFA0B3500C135C8 /* Assets.xcassets in Resources */,
 				19428EB31BFA0B3400C135C8 /* Main.storyboard in Resources */,
 			);
@@ -312,12 +406,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19428EB01BFA0B3400C135C8 /* ViewController.m in Sources */,
+				278AEB3B214275E700475DD7 /* InternetConnectionStatusVC.m in Sources */,
+				278AEB2F2142756D00475DD7 /* AppCacheManagement.m in Sources */,
+				278AEB5821427FFE00475DD7 /* FeedVC.m in Sources */,
+				278AEB322142757B00475DD7 /* APIInfoObject.m in Sources */,
 				19428EDF1BFA0C5B00C135C8 /* APIParser.m in Sources */,
+				278AEB3E2142762700475DD7 /* APILogDetailVC.m in Sources */,
+				278AEB412142764200475DD7 /* APILogsVC.m in Sources */,
 				1983282E1BFB18D600ECF061 /* APIParser+User.m in Sources */,
 				19428EAD1BFA0B3400C135C8 /* AppDelegate.m in Sources */,
 				19428EAA1BFA0B3400C135C8 /* main.m in Sources */,
-				27E061001E4886C7004D50AC /* TableVC.m in Sources */,
+				278AEB5121427E5700475DD7 /* FeedObject.m in Sources */,
+				278AEB492142783500475DD7 /* UIViewController+Helper.m in Sources */,
 				19428EE31BFA0C9F00C135C8 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SourceSansPro-Regular.ttf">
+            <string>SourceSansPro-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Internet Connection StatusVC-->
+        <scene sceneID="rVp-eK-uD2">
+            <objects>
+                <viewController storyboardIdentifier="idInternetConnectionStatusVC" id="f6w-nF-gN0" customClass="InternetConnectionStatusVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Fcs-MK-WfB"/>
+                        <viewControllerLayoutGuide type="bottom" id="Tzo-pU-yRO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sKf-GX-Dje">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your internet connection or try again later" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTn-Dd-oJW">
+                                <rect key="frame" x="47" y="328" width="226" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="226" id="Ef6-lx-Yly"/>
+                                    <constraint firstAttribute="height" constant="80" id="R4q-Oy-Fjj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.68235294117647061" green="0.68235294117647061" blue="0.68235294117647061" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like we couldn't connect to Internet!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XlF-Uq-lv2">
+                                <rect key="frame" x="47" y="254" width="226" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="226" id="WxH-aR-heq"/>
+                                    <constraint firstAttribute="height" constant="80" id="v3S-eF-Nse"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.68235294117647061" green="0.68235294117647061" blue="0.68235294117647061" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="internet_reachability" translatesAutoresizingMaskIntoConstraints="NO" id="JS0-Hn-37R">
+                                <rect key="frame" x="67" y="66" width="186" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="114" id="B5L-ne-r21"/>
+                                    <constraint firstAttribute="width" constant="186" id="FUh-51-lnJ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mvq-yx-4kn">
+                                <rect key="frame" x="80" y="423" width="160" height="40"/>
+                                <color key="backgroundColor" red="0.35045704245567322" green="0.63111257553100586" blue="0.74906933307647705" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="RtA-6k-4Lb"/>
+                                    <constraint firstAttribute="width" constant="160" id="bOP-hB-0HM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
+                                <state key="normal" title="Try Again">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <real key="value" value="1.8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="retryClicked:" destination="f6w-nF-gN0" eventType="touchUpInside" id="oG1-Tz-xvk"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9K-To-niO">
+                                <rect key="frame" x="105" y="214" width="110" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="ntP-cb-UQy"/>
+                                    <constraint firstAttribute="height" constant="35" id="q1m-vS-sQi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="28"/>
+                                <color key="textColor" red="0.51372549019607838" green="0.51372549019607838" blue="0.51372549019607838" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XlF-Uq-lv2" firstAttribute="leading" secondItem="sKf-GX-Dje" secondAttribute="leading" constant="47" id="6jk-LJ-Ltx"/>
+                            <constraint firstItem="JS0-Hn-37R" firstAttribute="centerX" secondItem="sKf-GX-Dje" secondAttribute="centerX" id="D7d-6y-NPJ"/>
+                            <constraint firstItem="XlF-Uq-lv2" firstAttribute="top" secondItem="u9K-To-niO" secondAttribute="bottom" constant="5" id="DdU-cv-HdL"/>
+                            <constraint firstItem="Mvq-yx-4kn" firstAttribute="centerX" secondItem="sKf-GX-Dje" secondAttribute="centerX" id="Dgj-jX-gjg"/>
+                            <constraint firstItem="JS0-Hn-37R" firstAttribute="leading" secondItem="sKf-GX-Dje" secondAttribute="leading" constant="67" id="E9b-al-xGc"/>
+                            <constraint firstItem="u9K-To-niO" firstAttribute="leading" secondItem="sKf-GX-Dje" secondAttribute="leading" constant="105" id="Gey-qq-f3y"/>
+                            <constraint firstAttribute="trailing" secondItem="u9K-To-niO" secondAttribute="trailing" constant="105" id="IbR-cJ-1xN"/>
+                            <constraint firstItem="u9K-To-niO" firstAttribute="centerX" secondItem="sKf-GX-Dje" secondAttribute="centerX" id="TJp-C9-A7S"/>
+                            <constraint firstItem="Mvq-yx-4kn" firstAttribute="top" secondItem="vTn-Dd-oJW" secondAttribute="bottom" constant="15" id="dG7-Wd-zri"/>
+                            <constraint firstAttribute="trailing" secondItem="JS0-Hn-37R" secondAttribute="trailing" constant="67" id="e51-NA-SFR"/>
+                            <constraint firstItem="vTn-Dd-oJW" firstAttribute="centerX" secondItem="sKf-GX-Dje" secondAttribute="centerX" id="gFF-xN-hIL"/>
+                            <constraint firstAttribute="trailing" secondItem="XlF-Uq-lv2" secondAttribute="trailing" constant="47" id="kjp-BE-fmu"/>
+                            <constraint firstItem="JS0-Hn-37R" firstAttribute="top" secondItem="Fcs-MK-WfB" secondAttribute="bottom" constant="46" id="lS2-D8-fDs"/>
+                            <constraint firstItem="Tzo-pU-yRO" firstAttribute="top" secondItem="Mvq-yx-4kn" secondAttribute="bottom" constant="17" id="pNW-RT-oqw"/>
+                            <constraint firstItem="u9K-To-niO" firstAttribute="top" secondItem="JS0-Hn-37R" secondAttribute="bottom" constant="34" id="pfw-f7-6Ox"/>
+                            <constraint firstItem="XlF-Uq-lv2" firstAttribute="centerX" secondItem="sKf-GX-Dje" secondAttribute="centerX" id="xyb-KF-iDc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnTryAgain" destination="Mvq-yx-4kn" id="GVc-Qw-qDx"/>
+                        <outlet property="imgInternetStatus" destination="JS0-Hn-37R" id="Asj-sK-oVp"/>
+                        <outlet property="lblInternetStatusDescription" destination="vTn-Dd-oJW" id="bVW-Jw-D1V"/>
+                        <outlet property="lblInternetStatusHeader" destination="XlF-Uq-lv2" id="Erg-1g-yZ2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M8f-mw-W3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="38" y="163"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="internet_reachability" width="256" height="256"/>
+    </resources>
+</document>

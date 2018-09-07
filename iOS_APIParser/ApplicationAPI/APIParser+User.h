@@ -9,18 +9,18 @@
 #import "APIParser.h"
 
 @interface APIParser (User)
+
 typedef enum
 {
-    APIUserLogIn,
-	APIGetComments,
-    APIUserGetPosts
+	APIUserLogIn,
+	APIGetComments
 } APIType;
 
 - (void)URLRequestWithType:(APIType)serviceName
 				parameters:(NSString *)parameters
 			   cookieValue:(NSMutableArray *)cookies
 			 customeobject:(id)object
-		  withRequestType : (NSString *) requestType
+		   withRequestType:(APIRequestType) requestType
 		withRequestHeaders:(NSDictionary *) headerDictionaries
 					 block:(ResponseBlock)block;
 

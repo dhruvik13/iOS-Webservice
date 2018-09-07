@@ -23,5 +23,15 @@
 
 #define ShowNetworkIndicator(BOOL) [UIApplication sharedApplication].networkActivityIndicatorVisible = BOOL
 
+#pragma mark -
+#pragma mark - View
+
+#define getStoryboard(StoryboardWithName) [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@", StoryboardWithName] bundle:NULL]
+#define loadViewController(StoryBoardName, VCIdentifer) [getStoryboard(StoryBoardName)instantiateViewControllerWithIdentifier:VCIdentifer]
+
+#define RGBCOLOR(r, g, b, alp) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:alp]
+
+#define Screen_Height  [UIScreen mainScreen].bounds.size.height
+#define Screen_Width  [UIScreen mainScreen].bounds.size.width
 
 #endif /* AppMacros_h */
