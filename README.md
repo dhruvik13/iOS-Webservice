@@ -13,21 +13,31 @@ APIParser *service = [APIParser sharedMediaServer]; //set your shared Instanse f
 					 parameters:@""                 //pass request parameter as POST param orr GET param as per requirement
 					cookieValue:nil                 //pass any cookie if required by the specific request 
 				  customeobject:nil                 //pass any custom object as parameter if service required
-				withRequestType:@"GET"              //define you request method
+				withRequestType:APIRequestMethodGET              //define you request method
 			 withRequestHeaders:nil                 //pass anny additional header parameters if required by the server or request
 						  block:^(NSError *error, id objects, NSString *responseString, NSString *nextUrl, NSMutableArray *responseArray, NSURLResponse *URLResponseObject) {
 							  
-							  if (error) {
+							   if (error) {
 								  
 								  //Handle Error
+								  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[error domain] message:[NSString stringWithFormat:@"%@", error.localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+								  
+								  UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+								  [alertController addAction:ok];
+								  
+								  [self presentViewController:alertController animated:YES completion:nil];
 							  }
 							  else {
 								  
 								  if (responseArray.count > 0) {
 									  
 									  //Handle Response Array
-									  self.commentArrayCount = [NSMutableArray new];
-									  self.commentArrayCount = responseArray;
+									  if (self.commentArrayCount == nil) {
+										  self.commentArrayCount = [NSMutableArray new];
+										  self.commentArrayCount = [responseArray mutableCopy];
+									  } else {
+										  [self.commentArrayCount addObjectsFromArray:[responseArray copy]];
+									  }
 									  
 									  [self.tableView reloadData];
 								  }
@@ -38,3 +48,15 @@ APIParser *service = [APIParser sharedMediaServer]; //set your shared Instanse f
 							  }
 						  }];
 						  
+
+- Added support for NSINvocation
+- Enhancement for CacheManagement
+- Reachabilty support improved
+- Debug logs for API calling 
+- Connection Lost UI added (Image source Google)
+- Call API from where connection lost (maintained with parameters)
+
+
+To enanble API Logs
+[[AppCacheManagement sharedCacheManager] setAPILoggingEnabled:true];
+
